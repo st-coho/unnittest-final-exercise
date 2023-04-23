@@ -2,7 +2,7 @@ import './App.css';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import Home from './components/Home';
 import UserList from './components/UserList';
-import UpdateUser from './components/UpdateUser';
+import UpdateUser from './components/DetailUser';
 import { ToastContainer } from 'react-toastify';
 import { Provider} from "react-redux"
 import Store from './Redux/Store';
@@ -19,7 +19,7 @@ function App() {
           <Routes>
             <Route path='/' element={<Home></Home>}></Route>
             <Route path='/user' element={<UserList></UserList>}></Route>
-            <Route path='/edit/:id' element={<UpdateUser></UpdateUser>}></Route>
+            <Route path='/detail/:id' element={<UpdateUser></UpdateUser>}></Route>
           </Routes>
         </BrowserRouter>
         <ToastContainer></ToastContainer>

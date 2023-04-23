@@ -44,7 +44,7 @@ const UserList = (props) => {
 									<td>{item.phone}</td>
 									<td>{item.website}</td>
 									<td>
-										<Link to={`/edit/${item.id}`} className="btn btn-primary">Detail</Link>
+										<Link to={`/detail/${item.id}`} className="btn btn-primary">Detail</Link>
 										<button onClick={()=>{handleDeleteUser(item.id)}} className="btn btn-danger">Delete</button>
 									</td>
 								</tr>

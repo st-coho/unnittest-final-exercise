@@ -1,7 +1,7 @@
 import { DELETE_USER, FAIL_REQUEST, GET_USER_LIST, GET_USER_OBJ, MAKE_REQUEST } from "./ActionType";
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import UpdateUser from "../components/UpdateUser";
+import UpdateUser from "../components/DetailUser";
 
 export const makeRequest = () => {
   return {
