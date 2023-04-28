@@ -1,0 +1,12 @@
+.user {
+  &-list {
+    @include pxRem(padding, 20)
+  }
+  &-item {
+    @include flexbox;
+    @include pxRem(padding, 16 0)
+  }
+  &-name {
+    @include pxRem(padding-right, 10)
+  }
+}
