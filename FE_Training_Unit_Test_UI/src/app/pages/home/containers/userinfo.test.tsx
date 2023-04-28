@@ -1,16 +1,16 @@
 import React from 'react';
+import { Routes, Route, MemoryRouter } from 'react-router-dom';
+import '@testing-library/jest-dom/extend-expect';
 import { render, screen, waitFor } from '@testing-library/react';
+import { logger } from 'redux-logger';
 import { Provider } from 'react-redux';
 import appReducer from '@app/app.reducers';
-import '@testing-library/jest-dom/extend-expect';
 import { applyMiddleware, createStore } from 'redux';
-import UserInfo from './UserInfo';
-import { logger } from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
-import { Routes, Route, MemoryRouter } from 'react-router-dom';
+import appMiddleware from '@app/app.middleware';
+import UserInfo from './UserInfo';
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
-import appMiddleware from '@app/app.middleware';
 
 const server = setupServer(
   rest.get('https://jsonplaceholder.typicode.com/users/:id', (req, res, ctx) => {
@@ -42,31 +42,34 @@ const server = setupServer(
     );
   })
 );
+
 const middleware = createSagaMiddleware();
 const store = createStore(appReducer, applyMiddleware(middleware, logger));
 
 const ReduxWrapper = ({ children }) => {
   middleware.run(appMiddleware);
-  return <Provider store={store}>
-        <MemoryRouter>
-            <Routes>
-              <Route path="*" element={children} />
-            </Routes>
-          </MemoryRouter>
-        </Provider>;
+  return (
+    <Provider store={store}>
+      <MemoryRouter>
+          <Routes>
+            <Route path="*" element={children} />
+          </Routes>
+        </MemoryRouter>
+    </Provider>
+  );
 };
 
 describe('test user info screen', () => {
-
   beforeAll(() => {
     server.listen();
   });
+
   afterAll(() => {
     server.close();
   });
 
-  describe('test call api success ', () => {
-    test('Render user info', async () => {
+  describe('Should call API success ', () => {
+    test('Shoud render user information', async () => {
       render(<UserInfo/>, { wrapper: ReduxWrapper });
       expect(screen.getByTestId('page-loading')).toBeInTheDocument();
       await waitFor(() => {
@@ -75,7 +78,7 @@ describe('test user info screen', () => {
       expect(screen.getByTestId('user-info')).toBeInTheDocument();
     });
   });
-  
+
   describe('test call api error', () => {
     test('render Error screen', async () => {
       server.use(
@@ -93,5 +96,4 @@ describe('test user info screen', () => {
       expect(screen.getByText('Error')).toBeInTheDocument();
     });
   });
-
 });

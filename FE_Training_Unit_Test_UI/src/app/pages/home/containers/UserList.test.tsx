@@ -1,20 +1,19 @@
 import React from 'react';
+import { Routes, Route, MemoryRouter } from 'react-router-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import '@testing-library/jest-dom/extend-expect';
 import { applyMiddleware, createStore } from 'redux';
-import UserList from './UserList';
 import { logger } from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
-import { Routes, Route, MemoryRouter } from 'react-router-dom';
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
 import appMiddleware from '@app/app.middleware';
 import appReducer from '@app/app.reducers';
+import UserList from './UserList';
 
 const server = setupServer(
   rest.get('https://jsonplaceholder.typicode.com/users', (req, res, ctx) => {
-    // respond using a mocked JSON body
     return res(ctx.json([
       {
       'id': 1,
@@ -85,7 +84,6 @@ afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 describe('test user list component', () => {
-
   describe('test call api success ', () => {
     test('render list user screen ', async () => {
       render(<UserList />, { wrapper: ReduxWrapper });
@@ -109,7 +107,7 @@ describe('test user list component', () => {
       expect(anchorElement).toHaveAttribute('href', '/user-info/2');
     });
   });
-  
+
   describe('test call api error', () => {
     test('User list render Error', async () => {
       server.use(
@@ -127,5 +125,4 @@ describe('test user list component', () => {
       expect(screen.getByText('Error')).toBeInTheDocument();
     });
   });
-
 });

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { getUserInfo } from '../home.action';
-import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
+import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
+import { getUserInfo } from '../home.action';
 
 const UserInfo = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -9,7 +9,7 @@ const UserInfo = (): JSX.Element => {
   const { id } = useParams();
   const { dataUser } = useSelector((state: RootStateOrAny) => state.homeReducer);
   const { error, isLoading } = useSelector((state: RootStateOrAny) => state.homeReducer);
-  
+
   useEffect (() => {
     dispatch(getUserInfo(id));
   }, [id]);
@@ -23,13 +23,16 @@ const UserInfo = (): JSX.Element => {
   }
 
   return (
-    <div>
+    <div style={{margin: "50px auto 0", width: '400px'}}>
+      <h1 style={{paddingBottom: "50px", fontSize: '50px', fontWeight: '900'}}>User Detail page</h1>
       {
         dataUser &&
           <div data-testid="user-info">
-            <p> {dataUser.name} </p>
-            <p> {dataUser.username} </p>
-            <p> {dataUser.address.suite + '' + dataUser.address.street + '' + dataUser.address.city} </p>
+            <p><span style={{fontWeight: "700"}}>Name:</span> {dataUser.name} </p>
+            <p><span style={{fontWeight: "700"}}>Phone:</span> {dataUser.phone} </p>
+            <p><span style={{fontWeight: "700"}}>Website:</span> {dataUser.website} </p>
+            <p><span style={{fontWeight: "700"}}>UserName:</span> {dataUser.username} </p>
+            <p><span style={{fontWeight: "700"}}>Address:</span> {dataUser.address.suite + '' + dataUser.address.street + '' + dataUser.address.city} </p>
           </div>
       }
     </div>

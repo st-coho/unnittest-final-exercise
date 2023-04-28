@@ -14,6 +14,7 @@ import appRoutes from './app.routes';
 import appMiddleware from './app.middleware';
 import appReducer from './app.reducers';
 import AppSuspense from './AppSuspense';
+import '../../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
 const middleware = createSagaMiddleware();
 const store = createStore(
